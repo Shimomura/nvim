@@ -84,100 +84,48 @@ noremap sl <C-w>l
 noremap sk <C-w>k
 noremap sw <C-w>k
 " emmet
-let g:user_emmet_leader_key='<c-e>'
 " key map---------------
+
+
 "dein Scripts-----------------------------
-if &compatible
- set nocompatible        " Be iMproved
+" プラグインがインストールされるディレクトリ
+let s:dein_dir = expand('~/.cache/dein')
+" dein.vim 本体
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
+" dein.vim がなければ github から落としてくる
+if &runtimepath !~# '/dein.vim'
+  if !isdirectory(s:dein_repo_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+  endif
+  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
 endif
-" Required:
-set runtimepath+=/Users/akitakashimomura/.cache/dein/repos/github.com/Shougo/dein.vim
-" Required:
-if dein#load_state('/Users/akitakashimomura/.cache/dein')
- call dein#begin('/Users/akitakashimomura/.cache/dein')
- " Let dein manage dein
- " Required:
- call dein#add('/Users/akitakashimomura/.cache/dein/repos/github.com/Shougo/dein.vim')
- " Add or remove your plugins here:
- call dein#add('Shougo/neosnippet.vim')
- call dein#add('Shougo/neosnippet-snippets')
- call dein#add('scrooloose/nerdtree')
- call dein#add('Shougo/neocomplete.vim')
- call dein#add('Shougo/neoinclude.vim')
- call dein#add('Shougo/vimproc.vim', {'build': 'make'})
- call dein#add('thinca/vim-quickrun')
- "call dein#add('lvht/phpcd.vim')
- call dein#add('vim-airline/vim-airline')
- call dein#add('vim-airline/vim-airline-themes')
- call dein#add('thinca/vim-ref')
- call dein#add('vim-scripts/taglist.vim')
- call dein#add('w0rp/ale')
- call dein#add('cohama/lexima.vim')
- call dein#add('Valloric/MatchTagAlways')
- call dein#add('mattn/emmet-vim')
- call dein#add('rking/ag.vim')
- call dein#add('phpactor/phpactor')
- " Required:
- call dein#end()
- call dein#save_state()
+
+" 設定開始
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
+
+  " プラグインリストを収めた TOML ファイル
+  " 予め TOML ファイルを用意しておく
+  let g:rc_dir    = expand("~/.config/nvim/dein/")
+  let s:toml      = g:rc_dir . 'dein.toml'
+  let s:lazy_toml = g:rc_dir . 'dein_lazy.toml'
+
+  " TOML を読み込み、キャッシュしておく
+  call dein#load_toml(s:toml,      {'lazy': 0})
+  call dein#load_toml(s:lazy_toml, {'lazy': 1})
+  " 設定終了
+  call dein#end()
+  call dein#save_state()
 endif
-" Required:
-filetype plugin indent on
-syntax enable
-" If you want to install not installed plugins on startup.
+
+" もし、未インストールものものがあったらインストール
 if dein#check_install()
- call dein#install()
+  call dein#install()
 endif
-"End dein Scripts-------------------------
-" nerdtree-----------------
-nnoremap <silent> <C-e> :NERDTreeToggle<CR>
-"autocmd VimEnter * NERDTree
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-" 表示幅
-let g:NERDTreeWinSize=40
-" ブックマークを表示
-let g:NERDTreeShowBookmarks=1
-" 親ディレクトリへ移動
-let g:NERDTreeMapUpdir=''
-" ファイルの開き方
-let g:NERDTreeMapOpenSplit='<C-j>'
-let g:NERDTreeMapOpenVSplit='<C-l>'
-" ファイルを開いたらNERDTreeを閉じる
-"let g:NERDTreeQuitOnOpen=1
-" 隠しファイルを表示
-let g:NERDTreeShowHidden=1
-" 非表示ファイル
-"let g:NERDTreeIgnore=['\.git$', '\.clean$', '\.swp$', '\.bak$', '\~$']
-" NERDTreeを同時に閉じる
-autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
-" nerdtree-----------------
-" deoplete-----------
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#auto_completion_start_length = 1
-" deoplete-----------
-"quickrun----------------
-let g:quickrun_config = {
-\  "_" : {
-\    "outputter/buffer/split" : ":botright 8sp",
-\    "outputter/buffer/close_on_empty" : 1,
-\    "outputter" : "quickfix"
-\  },
-\}
-au FileType qf nnoremap <silent><buffer>q :quit<CR>
-"quickrun----------------
-" vim-ref --------------
-inoremap <silent><C-k> <C-o>:call<Space>ref#K('normal')<CR><ESC>
-nmap <silent>K <Plug>(ref-keyword)
-let g:ref_no_default_key_mappings = 1
-let g:ref_cache_dir        = $HOME . '/.vim/vim-ref/cache'
-let g:ref_detect_filetype     = {
-\  'php': 'phpmanual'
-\}
-let g:ref_phpmanual_path = $HOME . '/.vim/vim-ref/php-chunked-xhtml'
-let g:ref_use_cache   = 1
-let g:ref_use_vimproc  = 1
-" vim-ref --------------
+"dein Scripts-----------------------------
+
+
 ""
 " PHP Lint 
 "nmap <Leader>l :call PHPLint()<CR>
@@ -195,40 +143,22 @@ let g:ref_use_vimproc  = 1
 " autocmd BufWritePost *.php call <SID>PHPLint()
 "augroup END
 "php lint----
+
 "matchtagalways------------
-"オプション機能ONにする
-let g:mta_use_matchparen_group = 1
-"使用するファイルタイプ(phpを追加)
-let g:mta_filetypes = {
-  \ 'html' : 1,
-  \ 'xhtml' : 1,
-  \ 'xml' : 1,
-  \ 'jinja' : 1,
-  \ 'php' : 1,
-  \}
 "matchtagalways------------
+
 " set: dictionary= で辞書ファイルを指定
 autocmd BufRead *.php\|*.ctp\|*.tpl :set dictionary=~/.vim/dictionaries/php.dict filetype=php
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_camel_case_completion = 1
-let g:neocomplcache_enable_underbar_completion = 1
-let g:neocomplcache_smart_case = 1
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_manual_completion_start_length = 0
-let g:neocomplcache_caching_percent_in_statusline = 1
-let g:neocomplcache_enable_skip_completion = 1
-let g:neocomplcache_skip_input_time = '0.5'
 
 
-
-function! s:PHPLint()
-  let s:result = system('php -l ' . bufname(""))
-  let s:count = split(s:result, "\n")
-  echo s:result
-endfunction
-
-augroup php-lint
-  autocmd!
-  autocmd BufWritePost *.php call <SID>PHPLint()
-augroup END
+"function! s:PHPLint()
+"  let s:result = system('php -l ' . bufname(""))
+"  let s:count = split(s:result, "\n")
+"  echo s:result
+"endfunction
+"
+"augroup php-lint
+"  autocmd!
+"  autocmd BufWritePost *.php call <SID>PHPLint()
+"augroup END
 
