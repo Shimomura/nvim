@@ -13,6 +13,7 @@ set wildmode=list:longest
 set virtualedit=block
 set noerrorbells
 set clipboard+=unnamed
+set laststatus=2
 "見た目
 set number
 set cursorline
@@ -67,6 +68,7 @@ vnoremap j gj
 vnoremap k gk
 "jjでノーマルモードにmついでに保存 
 inoremap <silent> jj <ESC>:<C-u>w<CR>
+
 noremap <Leader>5 :source ~/.config/nvim/init.vim<CR>
 noremap <Leader>a ggvG$
 noremap <Leader>r :QuickRun<CR>
@@ -83,9 +85,9 @@ noremap sj <C-w>j
 noremap sl <C-w>l
 noremap sk <C-w>k
 noremap sw <C-w>k
+
 " emmet
 " key map---------------
-
 
 "dein Scripts-----------------------------
 " プラグインがインストールされるディレクトリ
@@ -125,7 +127,7 @@ if dein#check_install()
 endif
 "dein Scripts-----------------------------
 
-
+autocmd BufRead *.php\|*.ctp\|*.tpl :set dictionary=~/.vim/dict/php.dict filetype=php
 ""
 " PHP Lint 
 "nmap <Leader>l :call PHPLint()<CR>
@@ -148,7 +150,6 @@ endif
 "matchtagalways------------
 
 " set: dictionary= で辞書ファイルを指定
-autocmd BufRead *.php\|*.ctp\|*.tpl :set dictionary=~/.vim/dictionaries/php.dict filetype=php
 
 
 "function! s:PHPLint()
