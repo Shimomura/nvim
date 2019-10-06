@@ -1,6 +1,7 @@
 let mapleader = "\<Space>"
 colorscheme molokai
 syntax on
+
 "基本
 set fenc=utf-8
 set nobackup
@@ -12,6 +13,7 @@ set wildmode=list:longest
 set virtualedit=block
 set noerrorbells
 set clipboard+=unnamed
+
 "見た目
 set number
 set cursorline
@@ -19,6 +21,7 @@ set cursorcolumn
 set virtualedit=onemore
 set listchars=tab:^\ ,trail:~
 set list listchars=tab:\▸\-
+
 " 背景透過
 augroup TransparentBG
   autocmd!
@@ -28,19 +31,20 @@ augroup TransparentBG
   autocmd Colorscheme * highlight Folded ctermbg=none
   autocmd Colorscheme * highlight EndOfBuffer ctermbg=none 
 augroup END
+
 "小文字は大文字含み検索、大文字は大文字のみ検索
 set ignorecase
 set smartcase
 set wrapscan
 set incsearch
 set inccommand=split
+
 "tab
-set tabstop=4
-set shiftwidth=4
-set softtabstop=0
+filetype plugin indent on
 set expandtab
 set smarttab
 set shiftround
+
 "php--------------
 let g:php_baselib    = 1
 let g:php_htmlInStrings = 1
@@ -74,20 +78,10 @@ noremap <Leader>, A,<esc>
 noremap <Leader>k 0i//<esc>0
 inoremap <C-f> <Esc>A
 " 画面分割
-noremap ss :split<CR>
-noremap sv :vsplit<CR>
-noremap sh <C-w>h
-noremap sj <C-w>j
-noremap sl <C-w>l
-noremap sk <C-w>k
-noremap sw <C-w>k
 
 if &compatible
   set nocompatible
 endif
-
-
-
 
 " プラグインがインストールされるディレクトリ
 let s:dein_dir = expand('~/.cache/dein')
