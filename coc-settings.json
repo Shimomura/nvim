@@ -1,0 +1,4 @@
+{
+  "suggest.enablePreselect": true,
+  "solargraph.commandPath": "/Users/akitakashimomura/.anyenv/envs/rbenv/shims/solargraph"
+}

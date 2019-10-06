@@ -1,7 +1,6 @@
 let mapleader = "\<Space>"
 colorscheme molokai
 syntax on
-
 "基本
 set fenc=utf-8
 set nobackup
@@ -13,7 +12,6 @@ set wildmode=list:longest
 set virtualedit=block
 set noerrorbells
 set clipboard+=unnamed
-set laststatus=2
 "見た目
 set number
 set cursorline
@@ -50,7 +48,7 @@ let g:php_noShortTags  = 1
 let g:php_sql_query   = 1
 let g:sql_type_default = 'mysql'
 "php--------------
-" key map---------------
+
 "file split
 nnoremap <silent> <S-j> :split<CR>
 nnoremap <silent> <S-l> :vsplit<CR>
@@ -68,10 +66,8 @@ vnoremap j gj
 vnoremap k gk
 "jjでノーマルモードにmついでに保存 
 inoremap <silent> jj <ESC>:<C-u>w<CR>
-
 noremap <Leader>5 :source ~/.config/nvim/init.vim<CR>
 noremap <Leader>a ggvG$
-noremap <Leader>r :QuickRun<CR>
 noremap <Leader>q :ccl<CR>
 noremap <Leader>; A;<esc>
 noremap <Leader>, A,<esc>
@@ -86,10 +82,13 @@ noremap sl <C-w>l
 noremap sk <C-w>k
 noremap sw <C-w>k
 
-" emmet
-" key map---------------
+if &compatible
+  set nocompatible
+endif
 
-"dein Scripts-----------------------------
+
+
+
 " プラグインがインストールされるディレクトリ
 let s:dein_dir = expand('~/.cache/dein')
 " dein.vim 本体
@@ -116,6 +115,7 @@ if dein#load_state(s:dein_dir)
   " TOML を読み込み、キャッシュしておく
   call dein#load_toml(s:toml,      {'lazy': 0})
   call dein#load_toml(s:lazy_toml, {'lazy': 1})
+
   " 設定終了
   call dein#end()
   call dein#save_state()
@@ -125,41 +125,3 @@ endif
 if dein#check_install()
   call dein#install()
 endif
-"dein Scripts-----------------------------
-
-autocmd BufRead *.php\|*.ctp\|*.tpl :set dictionary=~/.vim/dict/php.dict filetype=php
-""
-" PHP Lint 
-"nmap <Leader>l :call PHPLint()<CR>
-" " 
-" PHPLint
-" 
-" @author halt feits <halt.feits at gmail.com>
-" 
-"function! PHPLint()
-"  let result = system( &ft . ' -l ' . bufname(""))
-"  echo result
-"endfunction
-"augroup php-lint
-" autocmd!
-" autocmd BufWritePost *.php call <SID>PHPLint()
-"augroup END
-"php lint----
-
-"matchtagalways------------
-"matchtagalways------------
-
-" set: dictionary= で辞書ファイルを指定
-
-
-"function! s:PHPLint()
-"  let s:result = system('php -l ' . bufname(""))
-"  let s:count = split(s:result, "\n")
-"  echo s:result
-"endfunction
-"
-"augroup php-lint
-"  autocmd!
-"  autocmd BufWritePost *.php call <SID>PHPLint()
-"augroup END
-
